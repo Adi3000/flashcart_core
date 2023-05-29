@@ -120,6 +120,7 @@ private:
     }
 
     bool trySecureInit(BlowfishKey key) {
+        logMessage(LOG_DEBUG, "r4isdhc.hk: trySecureInit: ntrcard::init");
         ncgc::Err err = m_card->init();
         if (err && !err.unsupported()) {
             logMessage(LOG_ERR, "r4isdhc.hk: trySecureInit: ntrcard::init failed");
@@ -129,6 +130,8 @@ private:
                 static_cast<uint32_t>(m_card->state()));
             return false;
         }
+        logMessage(LOG_DEBUG, "r4isdhc.hk: trySecureInit: ntrcard::init done with  status (%d)",
+                static_cast<uint32_t>(m_card->state()));
 
         ncgc::c::ncgc_ncard_t& state = m_card->rawState();
         state.hdr.key1_romcnt = state.key1.romcnt = 0x1808F8;
